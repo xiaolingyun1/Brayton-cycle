@@ -1,0 +1,7 @@
+CoolProp==6.4.3
+Flask==2.3.2
+numpy==1.24.2
+matplotlib==3.7.1
+scipy==1.10.1
+pandas==1.5.3
+Flask-Cors==3.0.10
