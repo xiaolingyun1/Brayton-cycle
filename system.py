@@ -32,24 +32,6 @@ def plot_isobar_TS_diagram(fluidname, p, Tmin, Tmax, ax,label=''):
 def plot_isothermal_TS_diagram(s_min, s_max, Tmin, Tmax,ax,label=''):
     ax.plot([s_min, s_max], [Tmin, Tmax], 'k-',label=label)
 
-# T = np.zeros(11)
-# s = np.zeros(11)
-# p = np.zeros(11)
-# h = np.zeros(11)
-
-# # adiabatic efficiency
-# e1 = 0.9 # Turbine
-# e2 = 0.9 # MC
-# e3 = 0.9 # RC
-
-# # Effectiveness of heat exchanger
-# epsilon1 = 0.86 # HTR
-# epsilon2 = 0.86 # LTR
-
-# fluid = 'CO2'
-# p_min = cp.PropsSI('P_CRITICAL', fluid) + 2000
-# t_min = cp.PropsSI('T_CRITICAL', fluid) + 5
-
 class syst:
     def __init__(self, fluid, p_max=None, t_max=None, x=None, e1=0.9, e2=0.9, e3=0.9, epsilon1=0.86, epsilon2=0.86):
         self.T = np.zeros(11)
@@ -321,19 +303,6 @@ def find_max(fluid, t_max=900, p1=15, p2=30):
     ax.set_title('Maximum Efficiency')
     ax.legend(title = f'Maximum Temperature: {t_max:.2f} K\nMaximum Efficiency: {max_eta:.4f}\nOptimal Pressure: {index:.2f} MPa\nsplit ratio: {s:.2f}')
     return fig
-
-
-# def plot_para():
-#     fig = plt.figure()
-#     ax = fig.add_subplot(111)
-#     for j in np.linspace(1,3,5):
-#         x = np.linspace(0.4, 0.78, 250)
-#         eta = np.array([]) 
-#         for i in x:
-#             eta = np.append(eta, hsolve(i, j*1e7,700,fluid)[0])
-#         ax.plot(x, eta, label = f'p_max = {j*10} MPa')
-#     ax.set_xlabel('Split Ratio')
-#     ax.set_ylabel('Efficiency')
 
 
 
