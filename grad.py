@@ -10,8 +10,8 @@ demo1 = gr.Interface(
   fn=plot_system,
   inputs=[
       gr.inputs.Slider(minimum=0.5, maximum=1, default=0.7, label='分流比'),
-      gr.inputs.Number(default=20, label='最大压强 (MPa)'),
-      gr.inputs.Number(default=900, label='最高温度 (K)'),
+      gr.inputs.Slider(minimum=15, maximum=30, default=20, label='最大压强 (MPa)'),
+      gr.inputs.Number(default=900, label='最高温度 (K) CO2: 600-1200K  N2O: 600-750K'),
       gr.inputs.Dropdown(choices=fluid_options, default='CO2', label='工质'),
     ],
   outputs=[
@@ -26,7 +26,7 @@ demo2 = gr.Interface(
     fn=find_max,
     inputs=[
         gr.inputs.Dropdown(choices=fluid_options, default='CO2', label='工质'),
-        gr.inputs.Number(default=900, label='最高温度 (K)'),
+        gr.inputs.Number(default=700, label='最高温度 (K)'),
         gr.inputs.Number(default=15, label='最低压强 (MPa)'),
         gr.inputs.Number(default=30, label='最高压强 (MPa)'),
     ],
@@ -34,7 +34,7 @@ demo2 = gr.Interface(
         gr.Plot()
     ],
     title='Find the maximum efficiency of Brayton cycle',
-    description='Find the maximum efficiency of Brayton cycle with given maximum temperature(It takes about 3 minutes).'
+    description='Find the maximum efficiency of Brayton cycle with given maximum temperature(It takes about 2 minutes).'
 )
 
 
@@ -48,7 +48,7 @@ demo3 = gr.Interface(
         gr.inputs.Number(default=277, label='蒸汽发生器功率 (kW)'),
         gr.inputs.Number(default=4000, label='LTR换热系数 (W/m^2/K)'),
         gr.inputs.Number(default=4000, label='HTR换热系数 (W/m^2/K)'),
-        gr.inputs.Checkbox(default=False, label='是否画出换热器内部温度变化曲线（大约耗时30秒）')
+        gr.inputs.Checkbox(default=False, label='是否画出换热器内部温度变化曲线（大约耗时15秒）')
     ],
     outputs=[
         gr.outputs.Textbox(label='LTR换热面积 (m^2)'),
@@ -60,9 +60,21 @@ demo3 = gr.Interface(
     description='Calculate the heat exchanger of Brayton cycle.'
 )
 
-demo = gr.TabbedInterface([demo1, demo2, demo3],['system visualizer', 'maximum efficiency with given T_max', 'heat exchanger'])
+demo4 = gr.Interface(
+    fn=plot_eta,
+    inputs=[
+        gr.inputs.Dropdown(choices=fluid_options, default='CO2', label='工质'),
+        gr.inputs.Number(default=700, label='最高温度 (K)'),
+        gr.inputs.Number(default=20, label='最高压强 (MPa)')
+    ],
+    outputs=[
+        gr.Plot(label='eta')
+    ],
+    title='find maximum efficiency with given T_max and P_max'
+)
+
+demo = gr.TabbedInterface([demo1, demo2, demo3, demo4],['system visualizer', 'maximum efficiency with given T_max', 'heat exchanger', 'find maximum efficiency with given T_max and P_max'])
 
 if __name__ == '__main__':
-    app = demo.launch(share=True, show_error=True)
+    app = demo.launch(show_error=True)
     CORS(app)
-
